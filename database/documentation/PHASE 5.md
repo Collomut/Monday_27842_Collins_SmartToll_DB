@@ -1,56 +1,60 @@
-# Phase 5 – Table Implementation & Data Verification  
+# 🛣️ Phase 5 – Table Implementation & Data Verification  
 **Student:** Mutinda Collins Mumo  
 **ID:** 27842  
 **PDB:** WED_27842_Collins_smarttoll_db  
 
 ---
 
-The following tasks were completed:
-
-- All 5 tables created successfully  
-- Constraints added (PK, FK, CHECK, UNIQUE)  
-- Realistic sample data inserted  
-- Validation queries executed  
-- Integrity checking performed  
-- Test queries (joins, aggregations, subqueries) executed  
----
-# Validation Summary
-
-## **1. Table existence**
-Confirmed all tables exist:
-- VEHICLES  
-- TOLL_GATES  
-- TOLL_LOGS  
-- VEHICLE_FINE  
-- PAYMENTS  
-
-## **2. Row Count Validation**
-All tables contain expected data.
-
-## **3. Foreign Key Integrity**
-Every toll log, fine, and payment is linked to an existing vehicle.
-
-## **4. Data Quality**
-- No NULL values in mandatory fields  
-- Plate numbers are unique  
-- No orphan records  
+## ✅ Completed Tasks
+- Created all **5 tables** successfully  
+- Added **constraints** (PK, FK, CHECK, UNIQUE)  
+- Inserted **realistic sample data**  
+- Executed **validation queries**  
+- Performed **integrity checks**  
+- Ran **test queries** including joins, aggregations, and subqueries  
 
 ---
 
-# Test Queries Executed  
-The following categories of queries were successfully executed:
+## 📊 Validation Summary
 
-###  JOIN Queries  
+### 1️⃣ Table Existence
+Confirmed that all tables exist:  
+- `VEHICLES`  
+- `TOLL_GATES`  
+- `TOLL_LOGS`  
+- `VEHICLE_FINE`  
+- `PAYMENTS`  
+
+### 2️⃣ Row Count Validation
+All tables contain the **expected number of rows**.  
+
+### 3️⃣ Foreign Key Integrity
+- Every toll log, fine, and payment is linked to an existing vehicle  
+- No orphan records exist  
+
+### 4️⃣ Data Quality
+- No `NULL` values in mandatory fields  
+- Plate numbers are **unique**  
+- Referential integrity **maintained across all tables**  
+
+---
+
+## 🧪 Test Queries Executed
+
+### 🔗 JOIN Queries
 - Vehicles with toll activity  
 - Vehicles with unpaid fines  
 
-###  Aggregation Queries  
+### 📈 Aggregation Queries
 - Total toll revenue  
 - Gate usage ranking  
 
-###  Subqueries  
+### 🔍 Subqueries
 - Vehicles with more than 2 violations  
 
-###  Grouping  
+### 📂 Grouping
 - Violations grouped by vehicle  
 
+---
+
+This phase confirms that the database **structure, constraints, and data integrity** are correctly implemented and ready for the BI and reporting layers.
