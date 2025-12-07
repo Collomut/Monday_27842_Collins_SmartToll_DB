@@ -1,106 +1,115 @@
-Phase 7 – Triggers, Restriction Function & Auditing
-Student: Mutinda Collins Mumo
-ID: 27842
-Project: Smart Toll & Traffic Monitoring System
-PDB: WED_27842_Collins_smarttoll_db
-Schema: TOLL_OWNER
+# 🛣️ Phase 7 – Triggers, Restriction Function & Auditing  
+**Student:** Mutinda Collins Mumo  
+**ID:** 27842  
+**Project:** Smart Toll & Traffic Monitoring System  
+**PDB:** WED_27842_Collins_smarttoll_db  
+**Schema:** TOLL_OWNER  
 
-The created objects include:
-A holiday table
-An audit table
-A restriction function
-BEFORE INSERT / UPDATE / DELETE triggers
-A compound trigger
-An audit trigger
-Testing scripts
+---
 
-These objects ensure the system is secure, controlled, and properly monitored for changes.
+## ✅ Overview
+Phase 7 focuses on **data integrity, restriction enforcement, and auditing** in the Smart Toll & Traffic Monitoring System.  
 
-1.Holiday Table 
-A table holding all national holidays,Used for blocking operations on restricted days.
+Created objects include:  
+- Holiday table  
+- Audit table  
+- Restriction function  
+- BEFORE INSERT / UPDATE / DELETE triggers  
+- Compound trigger  
+- Audit trigger  
+- Testing scripts  
 
-2.Audit Table 
-Captures ALL insert/update/delete operations stores:
-Table name
-Operation performed
-User
-Timestamp
-Old values
-New values
+These objects ensure the system is **secure, controlled, and properly monitored** for changes.  
 
-Used for accountability and security checks.
+---
 
-3. Restriction Function (13_restriction_function.sql)
-A function that returns:
-FALSE on weekends or holidays
-TRUE on normal working days
+## 1️⃣ Holiday Table
+- Stores all **national holidays**  
+- Used to **block operations** on restricted days  
 
-Used inside authorization triggers to prevent unauthorized data modification.
-Logic:
+---
 
-Detects Saturday/Sunday using TO_CHAR(SYSDATE, 'DY')
-Checks current date against HOLIDAYS table
-Prevents INSERT, UPDATE, DELETE when not allowed
+## 2️⃣ Audit Table
+Captures **all DML operations** (INSERT, UPDATE, DELETE) with:  
+- Table name  
+- Operation performed  
+- User  
+- Timestamp  
+- Old values  
+- New values  
 
-This ensures government toll data is only modified on approved days.
+**Purpose:** Accountability and security checks for government toll data.  
 
- Implemented Triggers
+---
 
-1. BEFORE INSERT Trigger 
-trg_vehicle_insert_control
-Prevents new vehicle registration during weekends or holidays.
-Key Rules:
-Uses is_operation_allowed function
-Block with RAISE_APPLICATION_ERROR(-20050)
+## 3️⃣ Restriction Function  
+**File:** `13_restriction_function.sql`  
 
-Ensures data entry follows official working days.
+- Returns `FALSE` on **weekends or holidays**, `TRUE` on normal working days  
+- Used inside **authorization triggers** to prevent unauthorized data modification  
 
-2. BEFORE UPDATE Trigger
-trg_vehiclefine_update_control
-Prevents modifying fine records on restricted days.
-Protects financial integrity of government revenue records.
+**Logic:**  
+- Detects Saturday/Sunday using `TO_CHAR(SYSDATE, 'DY')`  
+- Checks current date against **HOLIDAYS** table  
+- Prevents INSERT, UPDATE, DELETE when not allowed  
 
-3. BEFORE DELETE Trigger 
-trg_payments_delete_control
-Prevents deleting financial transactions.
-No payment can ever be removed
-Deletion attempts raise an error
+Ensures toll data is only modified on **approved working days**.  
 
- COMPOUND Trigger on Toll Logs
-trg_toll_logs_compound
-This  trigger showcases:
-BEFORE STATEMENT actions
-BEFORE EACH ROW actions
-AFTER STATEMENT action
+---
 
-Purpose:
-Counts how many rows were inserted, updated, or deleted
-Prints a summary using DBMS_OUTPUT
-Helps monitor traffic activity changes
+## 4️⃣ Implemented Triggers
 
- Audit Trigger 
-trg_vehicle_audit
-Automatically logs:
-INSERT - stores new data
-UPDATE -stores old + new values
-DELETE - stores deleted values
+### BEFORE INSERT Trigger – `trg_vehicle_insert_control`
+- Prevents **new vehicle registration** on weekends/holidays  
+- Uses `is_operation_allowed` function  
+- Blocks operation with `RAISE_APPLICATION_ERROR(-20050)`  
 
-Records are written to AUDIT_LOG table.
-This satisfies the mandatory requirement of tracking activity on a table.
+### BEFORE UPDATE Trigger – `trg_vehiclefine_update_control`
+- Prevents modifying **fine records** on restricted days  
+- Protects **financial integrity**  
 
- Testing (16_phase7_test.sql)
-Testing included:
-Insert Test
-Attempts to insert a vehicle and checks if:
-Allowed on weekdays
-Blocked on weekends/holidays
+### BEFORE DELETE Trigger – `trg_payments_delete_control`
+- Prevents deletion of **financial transactions**  
+- Any attempt raises an error  
 
- Audit Test
-Selecting from AUDIT_LOG confirms:
-Inserts,Updates,Deletes are captured correctly.
+---
 
- Compound Trigger Test
-Updating toll_logs:
-Shows row counts in DBMS_OUTPUT
+## 5️⃣ Compound Trigger – `trg_toll_logs_compound`
+- Combines **BEFORE STATEMENT**, **BEFORE EACH ROW**, and **AFTER STATEMENT** actions  
+- Counts how many rows were inserted, updated, or deleted  
+- Prints a summary using `DBMS_OUTPUT`  
+- Helps **monitor traffic activity changes**  
 
+---
 
+## 6️⃣ Audit Trigger – `trg_vehicle_audit`
+- Automatically logs all operations on **VEHICLES** table  
+  - INSERT → stores new data  
+  - UPDATE → stores old + new values  
+  - DELETE → stores deleted values  
+- Records written to **AUDIT_LOG** table  
+- Satisfies **mandatory activity tracking requirements**  
+
+---
+
+## 7️⃣ Testing – `16_phase7_test.sql`
+**Tests performed:**  
+
+### Insert Test
+- Attempts to insert a vehicle  
+- Validates:  
+  - Allowed on weekdays  
+  - Blocked on weekends/holidays  
+
+### Audit Test
+- Queries **AUDIT_LOG** to confirm:  
+  - Inserts, Updates, Deletes are captured correctly  
+
+### Compound Trigger Test
+- Updates **TOLL_LOGS**  
+- Confirms row counts printed via `DBMS_OUTPUT`  
+
+---
+
+**Outcome:**  
+Phase 7 ensures the Smart Toll & Traffic Monitoring System is **secure, compliant, and auditable**, with enforced restrictions and full change tracking.
