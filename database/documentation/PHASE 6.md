@@ -1,79 +1,83 @@
-Phase 6 – PL/SQL Development Documentation
-Student: Mutinda Collins Mumo
-ID: 27842
-Project: Smart Toll & Traffic Monitoring System
-PDB: WED_27842_Collins_smarttoll_db
-Schema: TOLL_OWNER
+# 🛣️ Phase 6 – PL/SQL Development Documentation  
+**Student:** Mutinda Collins Mumo  
+**ID:** 27842  
+**Project:** Smart Toll & Traffic Monitoring System  
+**PDB:** WED_27842_Collins_smarttoll_db  
+**Schema:** TOLL_OWNER  
 
+---
 
-This included:
+## ✅ Development Overview
+This phase focuses on **PL/SQL package development** for toll and fine management, reporting, and analytics. All code is implemented inside the **`TOLL_PKG`** package.  
 
-A full PL/SQL Package (Specification + Body)
-Procedures for inserting, updating, and processing toll & fine data
-Functions for calculations, validation, and reporting
-Cursors for iterative reports
-Window functions for advanced analytics.
-Testing scripts using DBMS_OUTPUT
+Included components:  
+- Full **PL/SQL Package** (Specification + Body)  
+- Procedures for **inserting, updating, and processing** toll & fine data  
+- Functions for **calculations, validation, and reporting**  
+- Cursors for **iterative reporting**  
+- Window functions for **advanced analytics**  
+- Testing scripts using **DBMS_OUTPUT**  
 
-All code was implemented inside the TOLL_PKG package.
+---
 
-2. Completed Deliverables
+## 1️⃣ Package Specification  
+**File:** `06_toll_pkg_spec.sql`  
 
- Package Specification
-File: 06_toll_pkg_spec.sql
+Contains declarations for:  
+- 10+ **business logic functions**  
+- 10+ **supporting procedures**  
+- **Custom application exceptions**  
+- **Daily revenue reporting procedure**  
 
-Contains declarations for:
-1.10+ business logic functions
-2.10+ supporting procedures
-3.Custom application exceptions
-4.Daily revenue reporting procedure
+---
 
+## 2️⃣ Package Body  
+**File:** `07_toll_pkg_body.sql`  
 
- Package Body
-File: 07_toll_pkg_body.sql
+Implements:  
+- Fine management (**add, pay, settle**)  
+- Toll **entry/exit processing**  
+- Dynamic **toll fee calculation**  
+- Vehicle **validation** (plate rules)  
+- **Revenue reporting**  
+- Error handling using `RAISE_APPLICATION_ERROR`  
+- Utility computations (**balances, last visit date**)  
 
-Implements:
-1.Fine management (add, pay, settle)
-2.Toll entry/exit processing
-3.Dynamic toll fee calculation
-4.Vehicle validation (plate rules)
-5.Revenue reporting
-6.Error handling with RAISE_APPLICATION_ERROR
-7.Utility computations (balances, last visit date)
+✅ Package body compiled successfully and is **VALID** inside the PDB.  
 
-Package body compiled successfully and is VALID inside the PDB.
+---
 
-3. Cursor-Based Reporting
-File: 08_cursors.sql
+## 3️⃣ Cursor-Based Reporting  
+**File:** `08_cursors.sql`  
 
-Two main cursors were created:
+Two main cursors implemented:  
+1. **Top unpaid vehicles** – Aggregates total unpaid fines and displays ranking via `DBMS_OUTPUT`  
+2. **Last 24-hour traffic** – Shows recent toll usage by vehicles, joining `toll_gates` and `vehicles`  
 
-1.Top unpaid vehicles
-Aggregates total unpaid fines
-Displays ranking in DBMS_OUTPUT
-2.Last 24-hour traffic
-Shows recent toll usage by vehicles
-Uses joins with toll_gates and vehicles
+Demonstrates **explicit and implicit cursor loops** for iterative reporting.  
 
-These demonstrate use of explicit and implicit cursor loops.
+---
 
- 4. Window Functions
-File: 09_window_functions.sql
+## 4️⃣ Window Functions  
+**File:** `09_window_functions.sql`  
 
-Includes:
-RANK() → Rank vehicles by total fines
-LAG() → Detect repeated violations
-OVER(PARTITION BY...) → Partition by vehicle
+Implemented advanced analytics using:  
+- `RANK()` → Rank vehicles by **total fines**  
+- `LAG()` → Detect **repeated violations**  
+- `OVER(PARTITION BY...)` → Partition data by **vehicle** for reporting  
 
- 5. Testing Scripts
-File: 10_test_plsql.sql
+---
 
-Includes:
-Function testing (get_vehicle_profile, get_total_unpaid_fines,)
-Adding and paying fines
-Recording toll entries & exits
-Verifying payments created automatically
-DBMS_OUTPUT screenshots required for verification
+## 5️⃣ Testing Scripts  
+**File:** `10_test_plsql.sql`  
 
+Testing includes:  
+- Function testing (`get_vehicle_profile`, `get_total_unpaid_fines`, etc.)  
+- Adding and paying fines  
+- Recording toll **entries & exits**  
+- Verifying automatic creation of **payments**  
+- DBMS_OUTPUT screenshots required for verification  
 
+---
 
+This phase demonstrates **robust PL/SQL implementation** with proper encapsulation of business logic, iterative reporting, analytics, and automated testing for the Smart Toll & Traffic Monitoring System.
