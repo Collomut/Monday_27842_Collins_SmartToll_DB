@@ -11,6 +11,12 @@ The system automates high-volume toll operations while ensuring **accuracy, acco
 
 ---
 
+🖼️ Business Process Model (BPMN)
+Visual representation of the Toll Gate Workflow.
+located in Screenshots/workflow_analysys/
+
+---
+
 ## 👥 Actors & Roles
 
 - **Driver** – Approaches toll gate, presents vehicle, completes payment, and passes through.  
