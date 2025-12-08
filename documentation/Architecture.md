@@ -1,238 +1,224 @@
-# 🏗️ Smart Toll Management System – System Architecture  
-**Student:** Mutinda Collins  
-**Student ID:** 27842  
-**Database:** WED_27842_Collins_smarttoll_db  
-**Institution:** Adventist University of Central Africa (AUCA)  
-**Course:** Database Development with PL/SQL (INSY 8311)  
+# 🏗️ Smart Toll Management System – System Architecture
+
+**Student:** Mutinda Collins
+
+**Student ID:** 27842
+
+**Database:** `WED_27842_Collins_smarttoll_db`
+
+**Course:** Database Development with PL/SQL (INSY 8311)
+
+**Institution:** Adventist University of Central Africa (AUCA)
 
 ---
 
 ## 📌 1. Architecture Overview
 
-The **Smart Toll Management System** is built on a **three-tier database-centric architecture** designed to ensure:
-- High data integrity
-- Strong security and auditing
-- Efficient transaction processing
-- Business Intelligence (BI) readiness
+The **Smart Toll Management System** uses a **three-tier, database-centric architecture** designed for stability, scalability, and high data integrity. Oracle Database and PL/SQL act as the core engine where all business rules and processing logic are enforced.
 
-The system uses **Oracle Database with PL/SQL** as the primary processing engine, where all business logic is enforced at the database layer using:
-- Tables & constraints  
-- Views  
-- Functions & procedures  
-- Packages  
-- Triggers & auditing  
+This ensures:
 
-This ensures **data consistency, automation of operations, and centralized control**.
+* Strong data consistency
+* Automated processing
+* Secure access control
+* BI-ready analytic views
 
 ---
 
 ## 🏛️ 2. High-Level Architectural Layers
 
+```
 ┌───────────────────────────────┐
-│ USER INTERACTION │
-│ (Admins, Toll Officers, BI) │
+│         USER INTERFACE         │
+│  (Admins, Toll Officers, BI)   │
 └───────────────▲───────────────┘
-│ SQL / PL/SQL
+                │ SQL / PL/SQL
 ┌───────────────┴───────────────┐
-│ APPLICATION & BUSINESS LOGIC │
-│ (Packages, Procedures, Rules)│
+│    APPLICATION BUSINESS LOGIC  │
+│ (Packages, Procedures, Rules)  │
 └───────────────▲───────────────┘
-│ Transactions
+                │ Transactions
 ┌───────────────┴───────────────┐
-│ DATA & STORAGE LAYER │
+│        DATA STORAGE LAYER      │
 │ (Tables, Indexes, Views, Logs) │
 └───────────────────────────────┘
-
+```
 
 ---
 
 ## 🗂️ 3. Data Layer Architecture
 
-This layer stores all persistent information and is fully normalized to **Third Normal Form (3NF)**.
+The data layer stores all system information following **Third Normal Form (3NF)** design standards.
 
-### Core Tables
-- `vehicles` – Registered vehicles
-- `toll_gates` – Toll gate locations
-- `toll_logs` – Vehicle movement records
-- `vehicle_fine` – Traffic and toll violations
-- `payments` – Toll & fine transactions
+### **Core Operational Tables**
 
-### Support Tables
-- `holidays` – Public holidays for operation restrictions
-- `audit_log` – Tracks all sensitive operations
+* `vehicles` – Registered vehicle data
+* `toll_gates` – Toll gate records
+* `toll_logs` – Entry/exit logs
+* `vehicle_fine` – Violations and fines
+* `payments` – Fine & toll payments
 
-### Storage Strategy
-- **Data Tablespace:** `toll_data`
-- **Index Tablespace:** `toll_index`
-- **Temporary Tablespace:** `toll_temp`
+### **Supporting Tables**
 
-This separation improves:
-- Performance
-- Scalability
-- Fault isolation
+* `holidays` – Restricted operational dates
+* `audit_log` – Activity logging for auditing
+
+### **Tablespace Strategy**
+
+* `toll_data` – Main table data
+* `toll_index` – Indexes
+* `toll_temp` – Temporary operations
+
+This structure improves performance, organization, and maintainability.
 
 ---
 
 ## ⚙️ 4. Business Logic Architecture (PL/SQL Layer)
 
-All system intelligence is implemented at the database level.
+### **Functions**
 
-### ✅ Functions
-Used for:
-- Validation (`vehicle_exists`)
-- Calculations (`monthly_fine_total`, `total_revenue`)
-- Lookups (`last_gate_visited`)
-- Business decisions (`is_operation_allowed`)
+Used for validation, calculations, and core business checks:
 
-### ✅ Procedures
-Used for:
-- CRUD operations
-- Fine management
-- Payment processing
-- Reporting output via `DBMS_OUTPUT`
+* `vehicle_exists`
+* `monthly_fine_total`
+* `total_revenue`
+* `last_gate_visited`
+* `is_operation_allowed`
 
-### ✅ Package: `toll_pkg`
-This package acts as the **core service layer**, handling:
-- Toll entry & exit processing
-- Fine management & payment settlement
-- Vehicle registration & updates
-- Revenue report generation
-- Business rule enforcement
-- Error handling using `RAISE_APPLICATION_ERROR`
+### **Procedures**
 
-This design improves:
-- Code reusability  
-- Maintainability  
-- Encapsulation  
-- Security  
+Handle critical operations such as:
+
+* Payment processing
+* Vehicle updates
+* Toll entry logging
+
+### **Package: `toll_pkg`**
+
+Acts as the main service layer performing:
+
+* Toll entry & exit automation
+* Fine enforcement
+* Payment settlement
+* Revenue processing
+* Error handling
+
+Benefits:
+
+* Encapsulation
+* Reusability
+* Organized logic
 
 ---
 
 ## 🔐 5. Security & Access Control Architecture
 
-### User Roles
-- `toll_admin` – Full DBA & system control
-- `toll_owner` – Application schema owner with controlled privileges
+### **User Roles**
 
-### Privilege Control
-- Only authorized users can:
-  - Create tables
-  - Modify data
-  - Execute PL/SQL code
-- Sensitive operations are protected using:
-  - Triggers
-  - Role-based access
-  - Database constraints
+* **toll_admin** → DBA rights
+* **toll_owner** → Application-level rights
+
+### **Security Controls**
+
+* Role-based access
+* Privilege restrictions
+* Validation functions
+* DML-blocking triggers
 
 ---
 
 ## 🧾 6. Auditing & Compliance Architecture
 
-Auditing is handled using **database triggers** and the `audit_log` table.
+Auditing uses triggers + `audit_log` table.
 
-### Operations Tracked
-- INSERT on vehicles
-- UPDATE on vehicles
-- DELETE on vehicles
+### **Audit Records Capture:**
 
-Each audit entry records:
-- Table name
-- Operation type
-- Old values
-- New values
-- Database user responsible
-- Timestamp
+* User performing action
+* Operation type
+* Old and new values
+* Timestamp
 
-This supports:
-- Regulatory compliance
-- Fraud detection
-- Accountability
-- Digital forensics
+Supports:
+
+* Fraud detection
+* Traceability
+* Regulatory compliance
 
 ---
 
 ## ⛔ 7. Business Rule Enforcement Architecture
 
-The system enforces **strict operational restrictions** using:
+### **Operational Restriction Rule**
 
-### ✅ Restriction Rule:
-> Employees **CANNOT INSERT, UPDATE, or DELETE** on:
-- Weekdays (Monday – Friday)
-- Public holidays
+No `INSERT`, `UPDATE`, or `DELETE` allowed:
 
-### Enforcement Mechanism:
-- `is_operation_allowed` function
-- BEFORE INSERT / UPDATE / DELETE triggers
+* During weekends
+* During public holidays
 
-This guarantees:
-- Data protection during restricted periods
-- Controlled system access
-- Reduced fraud risks
+### **Enforced Using:**
+
+* `is_operation_allowed` function
+* BEFORE DML triggers
+
+This protects data and enforces policy compliance.
 
 ---
 
 ## 📊 8. Business Intelligence (BI) Architecture
 
-BI is enabled using:
-- Analytical Views
-- Aggregation Queries
-- Revenue & violation trend tracking
+BI support is achieved using analytical SQL and reporting views.
 
-### BI-Ready Views:
-- `vw_daily_traffic_summary`
-- `vw_gate_usage`
-- `vw_violation_summary`
-- `vw_payments_summary`
-- `vw_revenue_full`
+### **Key BI Views**
 
-These feed:
-- Executive dashboards
-- Revenue performance reports
-- Compliance monitoring systems
-- Traffic optimization analytics
+* `vw_daily_traffic_summary`
+* `vw_gate_usage`
+* `vw_violation_summary`
+* `vw_payments_summary`
+* `vw_revenue_full`
+
+Used for:
+
+* Dashboards
+* Revenue analytics
+* Policy decision support
+* Traffic management
 
 ---
 
 ## 🧪 9. Testing & Validation Architecture
 
-A **full automated SQL test suite** validates:
-- Data insertion
-- Procedure execution
-- Function accuracy
-- Trigger blocking behavior
-- View accuracy
-- Report correctness
+Testing is carried out using the automated script:
+**`09_test_scripts.sql`**
 
-Testing ensures:
-- System reliability
-- Functional correctness
-- Production readiness
+### **Covers:**
+
+* Data insertion
+* Procedure execution
+* Trigger restrictions
+* Function accuracy
+* View correctness
+* Payment workflow
+* Auditing behavior
+
+Ensures reliability and correctness.
 
 ---
 
 ## ✅ 10. Architecture Strengths
 
-- ✅ Strong data integrity via constraints
-- ✅ Full automation with PL/SQL
-- ✅ High security with triggers & audit logs
-- ✅ BI-ready analytics layer
-- ✅ Modular and scalable design
-- ✅ Centralized business rules enforcement
+* Centralized business logic
+* BI-ready design
+* Strong auditing and tracking
+* High data integrity
+* Trigger-based protection
+* Modular and scalable
+* Minimal human error
 
 ---
 
-## 📌 Conclusion
+## 🏁 Conclusion
 
-The **Smart Toll Management System Architecture** is a **robust, secure, transactional, and analytics-ready design** that aligns with **enterprise-grade database systems**. It fully satisfies all **AUCA Capstone Phase IV–VIII technical requirements** and is suitable for real-world deployment with minimal enhancement.
-
----
-
-✅ **Document Status:** Complete  
-✅ **Security Architecture:** Implemented  
-✅ **BI Architecture:** Implemented  
-✅ **Audit Architecture:** Implemented  
-✅ **Capstone Ready:** Yes  
-
----
+The **Smart Toll Management System** architecture is a secure, scalable, and analytics-ready design suitable for real-world deployment. It satisfies all AUCA Capstone requirements and demonstrates strong use of Oracle PL/SQL and database engineering principles.
 
 
+### **Testing Architecture:** ✔ Implemented
